@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
+import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/widgets/text_filed_input.dart';
-
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/utils.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -51,16 +54,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
       email: _emailController.text,
       password: _passwordController.text,
       file: _image!,
-    ); 
+    );
+     
+     
+    setState(() {
+      _isloading = false;
+    });
 
 
-      setState(() {
-        _isloading = false;
-      });
     if (res != 'success') {
       // ignore: use_build_context_synchronously
-     showSnackBar(res!, context);
+      showSnackBar(res!, context);
     }
+    else{
+      
+       
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                ),
+        ),
+      );
+    }
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -193,11 +219,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: const Text("dont have an account? "),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToLogin,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        "Sign up",
+                        "Login",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

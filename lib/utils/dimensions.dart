@@ -3,4 +3,4 @@
 
 
 
-const webscreensize = 400;
+const webscreensize = 500;

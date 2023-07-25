@@ -1,13 +1,27 @@
-import 'package:flutter/material.dart';
 
-class MobileScreenLayout extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:instagram_flutter/models/user.dart' as model;
+import 'package:instagram_flutter/providers/user_providers.dart';
+import 'package:provider/provider.dart';
+
+class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
 
   @override
+  State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
+}
+
+class _MobileScreenLayoutState extends State<MobileScreenLayout> {
+  
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    model.User? user = Provider.of<UserProvider>(context).getUser;
+
+    return  Scaffold(
       body: Center(
-        child: Text("This is Mobile"),
+         
+        child: Text(user?.username ?? 'User not available'),
       ),
     );
   }

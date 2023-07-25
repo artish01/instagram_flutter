@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
+import 'package:instagram_flutter/screens/signup_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:instagram_flutter/utils/utils.dart';
 import 'package:instagram_flutter/widgets/text_filed_input.dart';
+
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,9 +33,20 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isloading = true;
     });
+
     String res = await AuthMethods().loginUser(
-        email: _emailController.text, password: _passwordController.text);
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
     if (res == 'success') {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
       // ignore: use_build_context_synchronously
       showSnackBar(res, context);
@@ -38,6 +54,14 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isloading = false;
     });
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
+      ),
+    );
   }
 
   @override
@@ -97,11 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Radius.circular(4),
                         ),
                       ),
-                      color: blueColor), 
+                      color: blueColor),
                   child: _isloading
                       ? const Center(
                           child: CircularProgressIndicator(
-                             color: primaryColor,
+                            color: primaryColor,
                           ),
                         )
                       : const Text("Login"),
@@ -125,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text("dont have an account? "),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToSignup,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
