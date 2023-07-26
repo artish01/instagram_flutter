@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 
 
-import '../utils/dimensions.dart';
+import '../utils/global_variables.dart';
 
 
 class ResponsiveLayout extends StatefulWidget {
